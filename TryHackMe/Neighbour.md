@@ -1,6 +1,6 @@
 Machine's link: [TryHackMe | LeoMerendas](https://tryhackme.com/p/LeoMerendas)
 
-We start with a simple scan that showed to us that the machine is running an web server and SSH.
+We start with a simple scan that showed to us that the machine is running a web server and SSH.
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdHDcZqzlllla69zQgmSKM5v1H909jJyxGbXTlnVFuV5LfzxEL_KIpMdTj252Gai0dT6sKgDk_JWj2QwhoJLYQskteSCYIr3gK9GWR0kRZwHyeChBPH8TJgju_o3FtNuFNrfra0Dw?key=UPkumu6H_w0m_R7m1nLzQw)
 
@@ -10,7 +10,7 @@ With the machine description we already know somethings: its a cloud service wit
 
 ![](https://lh7-rt.googleusercontent.com/docsz/AD_4nXdeH7eNWILQldM7PmsI6Pyb54PqCcDk9W4YE21zxDq6cQksHXqH3lfiVqk6wTybDQsez9hQ0LeMRkI0vsd-V4twjZ8mgv2FbW-539mDKkTpsWufURNPjSUiBKk9xAMkK3_xt5VHbw?key=UPkumu6H_w0m_R7m1nLzQw)
 
-Thats the login page (the first page that we see when enters the site).
+Thats the login page (the first page we see when enters the site).
 
 The login page says about an guest account and says to look into the source code of the page, so lets look it there.
 
