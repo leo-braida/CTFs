@@ -48,7 +48,7 @@ These directories didn't have anything who could be compromised.
 The only clue we have while FFuF is running, is that gobuster was failing with the certificate in HTTPS.
 So, lets examine the certificate!
 
-![Certificate](images.certificate.png)
+![Certificate](images/certificate.png)
 
 Here we found an interesting thing!
 Let's add this other subdomain to ours /etc/hosts
