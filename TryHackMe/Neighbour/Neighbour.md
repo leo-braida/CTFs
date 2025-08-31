@@ -1,4 +1,4 @@
-Machine's link: [TryHackMe | Neighbour](https://tryhackme.com/room/neighbour)
+Machine's link: [TryHackMe | LeoMerendas](https://tryhackme.com/p/LeoMerendas)
 
 We start with a simple scan that showed to us that the machine is running a web server and SSH.
 
