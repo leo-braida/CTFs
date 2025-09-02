@@ -32,13 +32,16 @@ The solver source code is on this repo, feel free to use. The code ain't the bes
 So, with the solver, we connect to the target:
 
 ![Connecting with netcat](images/connecting.png)
-![[Pasted image 20250902001820.png]]
+
+
 
 We enter this flag on our solver and receive this:
+
 ![Enter the flag on the solver](images/solver.png)
-![[Pasted image 20250902001850.png]]
+
 
 Inserting the key, we now got the other flag:
+
 ![Getting the flag](images/flag.png)
-![[Pasted image 20250902001740.png]]
+
 
